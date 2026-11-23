@@ -7,7 +7,7 @@
 - `cd` : `Directory`를 이동
    * `ex) `cd '~', './', '..', '/usr', '-'`
    * `~` : `Home` `Directory`를 의미한다.
-   * `.` : '현재 Directory`를 의미한다.
+   * `.` : `현재 Directory`를 의미한다.
    * `..` : `상위 Directory`를 의미한다.
    * `/` : `최상위 Directory`로 이동한다.
    * `-` : `직전 Directory`로 이동한다.
