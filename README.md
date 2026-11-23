@@ -3,32 +3,37 @@
 ---
 # 리눅스 명령어
 ### DIRECTORY 관리 명령
-1. `pwd` : 현재 `Directory`를 출력
-2. `cd` : `Directory`를 이동
+- `pwd` : 현재 `Directory`를 출력
+- `cd` : `Directory`를 이동
    * `ex) `cd '~', './', '..', '/usr', '-'`
    * `~` : `Home` `Directory`를 의미한다.
    * `.` : '현재 Directory`를 의미한다.
    * `..` : `상위 Directory`를 의미한다.
    * `/` : `최상위 Directory`로 이동한다.
    * `-` : `직전 Directory`로 이동한다.
-4. 절대 경로 : `/` `~`, 절대 경로가 아니면 모두 상대 경로이다.
-5. `ls` : `현재 Directory`의 파일 정보 출력
+- 절대 경로 : `/` `~`, 절대 경로가 아니면 모두 상대 경로이다.
+- `ls` : `현재 Directory`의 파일 정보 출력
    * `-a` : 모든 파일을 출력 (.으로 시작하는 숨김 파일 포함)
    * `-l` : 파일 정보를 자세히 출력
    * `-al` : `a`와 `l` 명령어를 같이 적용하여 출력
-6. `mkdir` : `Directory`를 생성한다.
+- `mkdir` : `Directory`를 생성한다.
    * `ex) : mkdir my_dir`
    * `-p` : 중간에 없는 `Directory`를 자동으로 생성한다.
-7. `rmdir` : `Directory`를 삭제한다.
+- `rmdir` : `Directory`를 삭제한다.
 
 - **예제 : Directory 관리**
-- 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
-    * cd ~
-    * mkdir tdir1
-- /etc로 이동 후 ~/tdir1 아래에 tdir2를 생성한다.
-    * cd /etc
-    * 
-
+1. 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
+    * `cd ~`
+    * `mkdir tdir1`
+2. /etc로 이동 후 ~/tdir1 아래에 tdir2를 생성한다.
+    * `cd /etc`
+    * `mkdir ~/tdir1/tdir2`
+3. 한번에 위에서 생성한 tdir2로 이동한다.
+    * `cd ~/tdir1/tdir2`
+4. 홈 디렉터리로 이동 후 tdir1을 삭제한다.
+    * `cd ~`
+    * `rmdir ~/tdir1/tdir2`
+    * `rmdir ~/tdir1`
 ---
 ### 파일 관리 명령
 1. `file` : 파일 정보를 출력 // Text file, ELF format 등
@@ -55,6 +60,17 @@
    * `ex) ln -s /etc/issue myissue`
    *  `-s` : `Symbolic Link File`생성
    *  `Symbolic Link File`은 가리키는 주소의 `.exe`, `Dir`과 이어져 간편한 접근이 가능하다.
+- **예제 : File 관리**
+1. /etc 디렉터리를 통째로 홈 디렉터리에 복사한다.
+    * `cp -r /etc ~`
+2. 홈 디렉터리에 복사한 etc 디렉터리의 이름을 my_etc로 변경한다.
+    * `mv etc my_etc`
+3. 홈 디렉터리에 my_backup 디렉터리를 생성한다.
+    * `mkdir my_backup`
+4. my_etc를 my_backup으로 이동한다.
+    * `mv my_etc my_backup`
+5. my_backup 디렉터리를 삭제한다.
+    * `rm -rf my_backup`
 ---
 ### 텍스트 파일 보기 명령
 1. `cat` : 텍스트 파일의 내용을 화면에 출력 / 서로 다른 파일을 연결 시킬 때 사용할 수 있다. (Re Direction [ `>` ]) 
