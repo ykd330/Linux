@@ -5,7 +5,7 @@
 ### DIRECTORY 관리 명령
 - `pwd` : 현재 `Directory`를 출력
 - `cd` : `Directory`를 이동
-   * `ex) `cd '~', './', '..', '/usr', '-'`
+   * `ex) `cd ~ ./ .. /usr -`
    * `~` : `Home` `Directory`를 의미한다.
    * `.` : `현재 Directory`를 의미한다.
    * `..` : `상위 Directory`를 의미한다.
