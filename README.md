@@ -22,41 +22,41 @@
 - `rmdir` : `Directory`를 삭제한다.
 
 - **예제 : Directory 관리**
-1. 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
+- 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
     * `cd ~`
     * `mkdir tdir1`
-2. /etc로 이동 후 ~/tdir1 아래에 tdir2를 생성한다.
+- /etc로 이동 후 ~/tdir1 아래에 tdir2를 생성한다.
     * `cd /etc`
     * `mkdir ~/tdir1/tdir2`
-3. 한번에 위에서 생성한 tdir2로 이동한다.
+- 한번에 위에서 생성한 tdir2로 이동한다.
     * `cd ~/tdir1/tdir2`
-4. 홈 디렉터리로 이동 후 tdir1을 삭제한다.
+- 홈 디렉터리로 이동 후 tdir1을 삭제한다.
     * `cd ~`
     * `rmdir ~/tdir1/tdir2`
     * `rmdir ~/tdir1`
 ---
 ### 파일 관리 명령
-1. `file` : 파일 정보를 출력 // Text file, ELF format 등
-2. `stat` : 타임스탬프를 포함하는 파일의 정보를 출력 
+- `file` : 파일 정보를 출력 // Text file, ELF format 등
+- `stat` : 타임스탬프를 포함하는 파일의 정보를 출력 
    * `Access` : 파일의 내용을 읽을 때 갱신
    * `Modify` : 파일의 내용을 수정할 때 갱신
    * `Change` : 파일의 속성 또는 내용을 변경할 때 갱신
-3. `touch` : 없던 파일을 생성 or 있는 파일의 타임 스탬프를 갱신
-4. `cp` : `File`이나 `Directory`를 복사
+- `touch` : 없던 파일을 생성 or 있는 파일의 타임 스탬프를 갱신
+- `cp` : `File`이나 `Directory`를 복사
    * `ex) hello.c hello_1.c`
    * `-i` : 파일 대상을 덮어 쓸지 물어봄
    * `-f` : 파일 대상이 열리지 않으면 강제로 지우고 다시 시도
    * `-f  Templates` : 복수의 소스 파일을 복사
    * `-r` : Templayes : `Directory`를 모두 복사, 이미 있을 경우 그 파일의 하위로 복사
-5. `mv` : `File`이나 `Directory`를 이동하거나 이름을 변경
+- `mv` : `File`이나 `Directory`를 이동하거나 이름을 변경
    * `ex) hello_1.c hello_2.c`
    *  `-f` : 무조건 덮어 씀
    * `주의 사항` : 원치 않게 `File`이나 `Dir`의 이름을 변경할 수 있다.
-6. `rm` : `File`이나 `Directory`를 삭제한다.
+- `rm` : `File`이나 `Directory`를 삭제한다.
    * `ex) mv MyDir/hello_1.c`
    *  `-r` : `Directory`를 삭제한다.
    *  `-f` `-rf` : 대상이 없거나 하는 이유로 실행에 실패해도 메세지를 출력하지 않음
-7. `ln` : `File Link`를 만들어줌
+- `ln` : `File Link`를 만들어줌
    * `ex) ln -s /etc/issue myissue`
    *  `-s` : `Symbolic Link File`생성
    *  `Symbolic Link File`은 가리키는 주소의 `.exe`, `Dir`과 이어져 간편한 접근이 가능하다.
@@ -73,12 +73,12 @@
     * `rm -rf my_backup`
 ---
 ### 텍스트 파일 보기 명령
-1. `cat` : 텍스트 파일의 내용을 화면에 출력 / 서로 다른 파일을 연결 시킬 때 사용할 수 있다. (Re Direction [ `>` ]) 
+- `cat` : 텍스트 파일의 내용을 화면에 출력 / 서로 다른 파일을 연결 시킬 때 사용할 수 있다. (Re Direction [ `>` ]) 
    * `ex) cat /etc/services`
-2. `more` / `less` : 텍스트 파일의 내용을 화면에 한 페이지씩 출력
+- `more` / `less` : 텍스트 파일의 내용을 화면에 한 페이지씩 출력
    * `more' : 텍스트 파일의 내용을 한 페이지씩 출력함
    * `less` : `more`의 기능에 마우스 커서로 `상 하`로 이동 가능한 기능이 추가됨
-3. `head` / `tail` : 텍스트 파일의 `시작` / `끝` 부분을 출력
+- `head` / `tail` : 텍스트 파일의 `시작` / `끝` 부분을 출력
    * `ex) head -5 /etc/profile / tail -20 /etc/profile`
    * `-[N]` : (head)첫 `N`줄 출력 / (tail)끝 `N`줄 출력 (`N` 생략시 기본 10줄)
 ---
