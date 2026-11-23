@@ -2,6 +2,35 @@
 
 ---
 # 리눅스 명령어
+- `terminel` : `shell`의 입 출력을 담당한다.
+- `shell` : `Linux OS`에 명령을 전달하기 위한 명령어 해석기
+  * `shell` 하나 당 `terminel` 하나를 사용한다.
+
+### 명령어 사용
+- 명령 프롬프트 구조
+  * willtek@raspberrypi:~/work $ ls -l
+   * 계정 이름 : willtek
+   * 시스템 이름 : raspberrypi
+   * 작업 위치 : ~/work
+   * 프롬프트 기호 : $(일반 사용자) | #(관리자)
+   * 명령어 : ls -l
+### 명령어 사용 매뉴얼
+- `man` : 명령어나 함수 등 명령의 매뉴얼을 출력한다.
+
+#***매뉴얼 페이지***
+- `Name` : 명령에 대한 간략한 설명
+  * `ls - list directory contents`
+- `Synopsis` : 명령어 사용 형식
+  * `ls [OPTION]... [FILE]...`
+- `Description` : 명령어 세부 내역 기술
+  * `List information about the FILEs (the curren... -a, --all do not ignore entries starting with.`
+
+
+### 외부 명령 vs 쉘 내장 명령
+- `which` : 명령어가 저장된 위치를 출력
+- `help` : `which`로 명령어의 위치를 확인할 수 없을 때 사용 / 명령어의 사용법을 출력
+- `type` : `shell`내장 함수일 경우 `<> is a shell builtin` 출력 | 아닐 경우 명령의 주소 출력
+
 ### DIRECTORY 관리 명령
 - `pwd` : 현재 `Directory`를 출력
 - `cd` : `Directory`를 이동
@@ -20,8 +49,8 @@
    * `ex) : mkdir my_dir`
    * `-p` : 중간에 없는 `Directory`를 자동으로 생성한다.
 - `rmdir` : `Directory`를 삭제한다.
-
-- **예제 : Directory 관리**
+---
+#***예제 : Directory 관리***
 - 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
     * `cd ~`
     * `mkdir tdir1`
@@ -60,7 +89,8 @@
    * `ex) ln -s /etc/issue myissue`
    *  `-s` : `Symbolic Link File`생성
    *  `Symbolic Link File`은 가리키는 주소의 `.exe`, `Dir`과 이어져 간편한 접근이 가능하다.
-**예제 : File 관리**
+--- 
+#***예제 : File 관리***
 1. /etc 디렉터리를 통째로 홈 디렉터리에 복사한다.
     * `cp -r /etc ~`
 2. 홈 디렉터리에 복사한 etc 디렉터리의 이름을 my_etc로 변경한다.
