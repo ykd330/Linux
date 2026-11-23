@@ -21,8 +21,15 @@
    * `-p` : 중간에 없는 `Directory`를 자동으로 생성한다.
 7. `rmdir` : `Directory`를 삭제한다.
 
+- **예제 : Directory 관리**
+- 자신의 홈 디렉터리로 이동 후 tdir1을 생성한다.
+    * cd ~
+    * mkdir tdir1
+- /etc로 이동 후 ~/tdir1 아래에 tdir2를 생성한다.
+    * cd /etc
+    * 
 
-
+---
 ### 파일 관리 명령
 1. `file` : 파일 정보를 출력 // Text file, ELF format 등
 2. `stat` : 타임스탬프를 포함하는 파일의 정보를 출력 
@@ -49,4 +56,12 @@
    *  `-s` : `Symbolic Link File`생성
    *  `Symbolic Link File`은 가리키는 주소의 `.exe`, `Dir`과 이어져 간편한 접근이 가능하다.
 ---
-#
+### 텍스트 파일 보기 명령
+1. `cat` : 텍스트 파일의 내용을 화면에 출력 / 서로 다른 파일을 연결 시킬 때 사용할 수 있다. (Re Direction [ `>` ]) 
+   * `ex) cat /etc/services`
+2. `more` / `less` : 텍스트 파일의 내용을 화면에 한 페이지씩 출력
+   * `more' : 텍스트 파일의 내용을 한 페이지씩 출력함
+   * `less` : `more`의 기능에 마우스 커서로 `상 하`로 이동 가능한 기능이 추가됨
+3. `head` / `tail` : 텍스트 파일의 `시작` / `끝` 부분을 출력
+   * `-[N]` : (head)첫 `N`줄 출력 / (tail)끝 `N`줄 출력 (`N` 생략시 기본 10줄)
+4. 
