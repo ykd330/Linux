@@ -60,7 +60,7 @@
    * `ex) ln -s /etc/issue myissue`
    *  `-s` : `Symbolic Link File`생성
    *  `Symbolic Link File`은 가리키는 주소의 `.exe`, `Dir`과 이어져 간편한 접근이 가능하다.
-- **예제 : File 관리**
+**예제 : File 관리**
 1. /etc 디렉터리를 통째로 홈 디렉터리에 복사한다.
     * `cp -r /etc ~`
 2. 홈 디렉터리에 복사한 etc 디렉터리의 이름을 my_etc로 변경한다.
