@@ -100,13 +100,13 @@
      - 그룹의 관리는 관리자의 권한으로 처리
      - `그룹에 속한 사용자들` 해당 그룹을 보조 그룹으로 하는 사용자들을 `,`로 구분
   * # 과제 1. willtek이 속한 보조 그룹을 찾기
-     - ### 명령어로 찾기
+    * ### 명령어로 찾기
      - `id <User>` / `groups <User>` : `<User>`가 속한 모든 그룹 목록 출력
         * `-g` : 사용자가 속한 주 그룹만 출력
         * `-Gn willtek | sed "s/\b$(id -gn <User>)\b//g" | xargs` : 사용자가 속한 보조 그룹만 출력
         * `id` 출력 값 : `uid=1000(willtek)gid=1000(willtek)groups=1000(willtek),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),102(input),105(render),110(netdev),115(lpadmin),993(gpio),994(i2c),995(spi)`
 
-     - ### group 파일로 찾기
+    * ### group 파일로 찾기
      - `grep "<User>:" /etc/group` : 주 그룹만 출력
         * 출력 값 : `willtek:x:1000:`
      - `grep "<User>" /etc/group` : 보조 그룹만 출력
