@@ -272,6 +272,7 @@
  * `cat /etc/passwd | grep sys` : passwd에서 sys가 포함된 행 출력
  * `cat /etc/passwd | grep sys | grep sys -v run` : passwd에서 sys가 포함되고 run이 포함되지 않는 행 출력
 
+---
 #### 예제 : 파일 및 텍스트 검색
 1. /etc 디렉터리에서 (하위 디렉터리 제외) 접근 권한이 755인 디렉터리를 모두 출력하라
      * `ls -l /etc | grep ^drwxr-xr-x`
@@ -281,7 +282,7 @@
      * `cat /etc/services | grep tcp | grep daemon | grep -v service`
 4. 저장된 커널 메시지를 출력하는 dmesg 명령의 결과 중 enabled를 포함한 행을 모두 출력하라
      * `dmesg | grep enabled`
- 
+---
 #### 과제2. `glob` 문자에 대해 조사하기 [`*`, `?`, `[]`]
     - 의미 :
     - 쓰임새 :
