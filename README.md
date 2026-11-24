@@ -303,11 +303,12 @@
 #### 실습 : Shell script 작성 및 실행
 **hello.sh 파일을 생성**
 
- * `#!/bin/bash` : `#1`은 스크립트를 실행할 프로그램 `Shell`의 절대 경로를 지정
+ * `#!/bin/bash` : `#1`은 스크립트를 실행할 프로그램 `Shell`의 절대 경로를 지정 <- 없을 경우 지정된 `shell`로 자동 지정
 
  * `#print massages` : 주석처리
  * `echo "Hello! Shell script"` : echo(명령어) "Hello! Shell script" (출력 내용)
- * `exit 0` : shell 종료
+ * `exit 0` : 값을 반환하고 `shell` 종료
+   - `exit`가 없다면 마지막에 실행된 명령의 값을 반환하고 종료
 
 **실행 권한 부여 후 실행**
  * `chmod a+x hello.sh`
@@ -316,3 +317,12 @@
 
 **실행 결과**
  * `Hello! Shell script`
+
+#### 실습 : 변수
+**변수는 기본적으로 문자열로 저장 / 선언이 없어도 사용 가능**
+* `name=linux` : `name`에 `"linux"` 대입
+  - 대입 연산과 변수 사이에 공백이 있으면 안됨
+* `echo name: $name`
+  - `name` : name 출력, `$name` : name 변수의 값이 출력
+* `echo name: ${name}`
+  - `echo name: $name`과 동일
