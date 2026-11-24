@@ -299,7 +299,7 @@
    - `shell`은 스크립트 언어로 작성된 프로그램을 실행시킬 수 있다.
      * 컴파일 언어 : `C` `C++`등 `source`를 `compile`해서 기계어로 변환 후 실행 => `system`에 종속적
      * 스크립트 언어 : `shell script` `python`등 `source`를 `인터프리터`가 실행 => `system`에 비종속적
-
+---
 #### 실습 : Shell script 작성 및 실행
 **hello.sh 파일을 생성**
 
@@ -317,8 +317,8 @@
 
 **실행 결과**
  * `Hello! Shell script`
-
-#### 실습 : 변수
+---
+#### 예제 : 변수
 **변수는 기본적으로 문자열로 저장 / 선언이 없어도 사용 가능**
 * `name=linux` : `name`에 `"linux"` 대입
   - 대입 연산과 변수 사이에 공백이 있으면 안됨
@@ -326,3 +326,59 @@
   - `name` : name 출력, `$name` : name 변수의 값이 출력
 * `echo name: ${name}`
   - `echo name: $name`과 동일
+* `name=programming`
+  - `name`에 `programming`대입
+* `echo name: $name`
+  - `name` 값 `programming` 출력
+* `echo course: $courve`
+  - `course:`만 출력
+  
+#### 예제 : Quiting
+ var=hello
+ * `touch aaa bbb` : 파일 `aaa` `bbb` 생성
+ * `touch "aaa bbb"` : 파일 `aaa bbb` 생성
+ * `echo $var` : hello 출력
+ * `echo "$var"` : hello 출력 + `$` ``` `\`를 특수 용도로 인식
+ * `ls /etc/issue*` : `issue`로 시작하는 파일 실행
+ * `ls "/etc/issue*"` : 에러 발생 : `*`이 특수 기호가 아닌 문자로 인식
+ * `touch 'ccc ddd'` : `ccc ddd`파일 생성
+ * `echo '$var'` : `$var`출력 됨 (''는 모든 특수 기호를 문자로 인식함)
+ * `ls '/etc/issue*'` : 에러
+
+#### ESCAPING
+1. `\` : 문자의 특수 기능을 제거
+2. `\` : 문자에 특수 기능을 부여
+
+ **특수 기능 제거 예제**
+ * echo \$var : var 출력 ($의 특수 기능이 제거됨)
+ * echo \\$var : hello 출력 (\의 트수 기능이 제거됨)
+ * echo \"$var\" : "hello"출력 : "의 특수 기능이 제거됨
+ * echo \'$var\' : 'hello'출력 : '의 특수 기능이 제거됨
+ * echo \'pwd\' : \`pwd\` : `pwd`출력
+ * echo \a\b\c\d : abcd 출력
+ * echo "\a\b\c\d" : \a\b\c\d 출력
+
+ **특수 기능 부여**
+ - echo -e같은 특정 명령과 ASKII에서 적용
+ * `\n` : 줄 바꿈
+ * `\r` : 리턴
+ * `\t` : 탭
+ * `\v` : 버티컬 탭
+ * `\b` : 백스페이스
+ * `\a` : 부저
+ * `\xHH` : 16진수
+ * `\0nnn. \nnn` : 8진수
+
+ **특수 기능 부여 예제**
+ - 문자 처리는 `echo` / ASKII 처리는 `shell`이 담당
+ * echo 111\n222\t333 : `\`는 무시되고 출력 
+ * echo "111\n222\t333 : `\`가 문자 취급되어 같이 출력
+ * echo -e "111\n222\t333" : `\n` `\t`에 특수 기능이 부여됨
+ * echo -e "\x31\x32\x33" : `\x`로 16진수 표기
+ * echo -e '\x31\x32\x33' : `\x`로 16진수 표기
+ * echo $'\x31\x32\x33' : `$' '`는 아스키 문자열로 출력해줌
+
+
+ 
+#### 과제2. 명령 치환(command substitution)에 대해 조사
+- ` 명령 또는 $(명령)
