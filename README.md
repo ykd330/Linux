@@ -2,7 +2,7 @@
 
 
 
-## 1과. 리눅스 명령어
+## 1과. Linux Command
 
 * `terminel` : `shell`의 입출력을 담당한다.
 * `shell` : `Linux OS`에 명령을 전달하기 위한 명령어 해석기
@@ -286,3 +286,29 @@
 #### 과제2. `glob` 문자에 대해 조사하기 [`*`, `?`, `[]`]
     - 의미 :
     - 쓰임새 :
+
+
+## 2과. shell script
+
+* `shell` : `User`와 `Linux OS`사이의 인터페이스 역할을 하는 프로그램
+   - 윈도우의 CMD와 비슷하지만 더 강력한 기능을 제공함
+   - `shell`에는 `sh` `dash` `bash` `ksh` `csh`등 다양한 쉘이 있다.
+   - `sh` : `system`용 `shell`로 다른 `shell`을 `Symbolic Link`하고 있음
+   - `dash` : bash보다 기능은 적지만 실행 속도가 빠르고 메모리 사용량이 적음 -> `User`보다는 `System`용에 적합
+   - `bash` : `User`가 사용하기 적합한 `shell`
+   - `shell`은 스크립트 언어로 작성된 프로그램을 실행시킬 수 있다.
+     * 컴파일 언어 : `C` `C++`등 `source`를 `compile`해서 기계어로 변환 후 실행 => `system`에 종속적
+     * 스크립트 언어 : `shell script` `python`등 `source`를 `인터프리터`가 실행 => `system`에 비종속적
+
+#### 실습 : Shell script 작성 및 실행
+-hello.sh 파일을 생성
+ * `#!/bin/bash` : `#!`은 스크립트를 실행할 프로그램 `(Shell)`의 절대 경로를 지정
+
+ * `#print massages`
+ * `echo "Hello! Shell script"`
+ * `exit 0`
+
+- 실행 권한 부여 후 실행
+ * `chmod a+x hello.sh`
+ * `./hello.sh`
+ * `Hello! Shell script`
