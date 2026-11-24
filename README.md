@@ -332,7 +332,7 @@
   - `name` 값 `programming` 출력
 * `echo course: $courve`
   - `course:`만 출력
-  
+---
 #### 예제 : Quiting
  var=hello
  * `touch aaa bbb` : 파일 `aaa` `bbb` 생성
@@ -344,7 +344,7 @@
  * `touch 'ccc ddd'` : `ccc ddd`파일 생성
  * `echo '$var'` : `$var`출력 됨 (''는 모든 특수 기호를 문자로 인식함)
  * `ls '/etc/issue*'` : 에러
-
+---
 #### ESCAPING
 1. `\` : 문자의 특수 기능을 제거
 2. `\` : 문자에 특수 기능을 부여
@@ -377,7 +377,7 @@
  * `echo -e "\x31\x32\x33"` : `\x`로 16진수 표기
  * `echo -e '\x31\x32\x33'` : `\x`로 16진수 표기
  * `echo $'\x31\x32\x33'` : `$' '`는 ASCII로 출력해줌
-
+---
 #### 실습 : 변수에 문자열 대입
 * `name="linux"`
 * `course="expert"`
