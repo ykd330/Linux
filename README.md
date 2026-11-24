@@ -378,6 +378,32 @@
  * `echo -e '\x31\x32\x33'` : `\x`로 16진수 표기
  * `echo $'\x31\x32\x33'` : `$' '`는 ASCII로 출력해줌
 
+#### 실습 : 변수에 문자열 대입
+* `name="linux"`
+* `course="expert"`
+
+#### linux expert
+* `var="$name $course"`
+* `echo $var`
+#### $linux \expert
+* `var="\$$name \\$course"`
+  - 특수 문자 $의 기능을 제거하고 `$`가 출력 되도록 함 -> `$name` -> `name` 변수의 문자열을 출력함 -> `$linux`
+  - 특수 문자 /의 기능을 제거하고 `/`가 출력 되도록 함 -> `\$course` -> `course` 변수의 문자열을 출력함 -> `\expert`
+* `echo $var`
+#### $$linux \\expert
+* `var="\$\$$name \\\\course"`
+  - 특수 문자 $의 기능을 제거하여 출력함 `\$\$$name` -> `$$$name` -> `name`변수의 문자열을 출력함 -> `$$linux`
+  - 특수 문자 \의 기능을 제거하여 출력함 `\\\\$course` -> `\\$course` -> `course`변수의 문자열을 출력함 -> `\\expert`
+     
+* `echo $var`
+#### experted linux
+* `var="${course}ed $name"`
+* `echo $var`
+#### 실행 결과
+- `linux expert`
+- `$linux \expert`
+- `$$name \\course`
+- `experted linux`
 
  
 #### 과제2. 명령 치환(command substitution)에 대해 조사
