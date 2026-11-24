@@ -245,3 +245,6 @@
     - `-c` : 파일 별 패턴을 포함한 행의 수를 출력
     - `-r` : 하위 `Directory`도 모두 검색
     - `-rn` : 행 번호도 출력
+ 
+#### Standard I/O와 Re Direction
+
