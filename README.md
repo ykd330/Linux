@@ -301,14 +301,18 @@
      * 스크립트 언어 : `shell script` `python`등 `source`를 `인터프리터`가 실행 => `system`에 비종속적
 
 #### 실습 : Shell script 작성 및 실행
--hello.sh 파일을 생성
+**hello.sh 파일을 생성**
+
  * `#!/bin/bash` : `#!`은 스크립트를 실행할 프로그램 `(Shell)`의 절대 경로를 지정
 
- * `#print massages`
- * `echo "Hello! Shell script"`
- * `exit 0`
+ * `#print massages` : 주석처리
+ * `echo "Hello! Shell script"` : echo(명령어) "Hello! Shell script" (출력 내용)
+ * `exit 0` : `shell` 종료
 
-- 실행 권한 부여 후 실행
+**실행 권한 부여 후 실행**
  * `chmod a+x hello.sh`
  * `./hello.sh`
+ * `Hello! Shell script`
+
+**실행 결과**
  * `Hello! Shell script`
