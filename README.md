@@ -247,7 +247,7 @@
     - `-rn` : 행 번호도 출력
  
 #### Standard I/O와 Re Direction
-- `표준 입출력` : `process`가 외부와 데이터를 교환하기 위한 통로
+**`표준 입출력` : `process`가 외부와 데이터를 교환하기 위한 통로**
   * `표준 입력 | 표준 출력 | 표준 에러` <- 실제 장치는 상황에 따라 다름
   * `표준 입출력`은 `부모`에게 상속 받음
   * `ls` <- `ls` 명령을 `표준 입력`으로 입력
@@ -255,13 +255,33 @@
   * `ls xxx` : `ls xxx`명령을 `표준입력`으로 입력
   * `ls: cannot access 'xxx': ...` : 명령의 결과를 `표준에러`로 출력
 
-- `Re Direction` : `표준 입출력`을 측정 파일로 재 지정함
+**`Re Direction` : `표준 입출력`을 측정 파일로 재 지정함**
  * `ls -l > ls.txt` : 명령의 결과를 표준 출력 대신 `ls.txt`로 출력 (기존 내용에 덮어씀)
  * `echo "test failed" >> log.txt` : `log.txt`에 추가됨 (기존 내용에 이어서 작성)
  * `cat` : 표준입력으로 받은 내용을 출력
    - `cat < ls.txt` : `표준입력`으로 `ls.txt`를 사용
- * 
+ - `cat < log.txt` : 부모 `shell` 파일을 읽음
+ - `cat log.txt` : `shell`이 파일을 읽음
+ * `0 : 표준입력 1 : 표준출력 2 : 표준에러 & : 입출력 + 에러`
+  - `2>` : 표준 에러를 특정 파일로 재지정 
+  - `2>&1` : 에러를 정상 출력과 같은 파일에 출력
+  
+**`Pip` : 앞 명령의 표준출력을 뒤 명령의 표준입력으로 전달**
+ * `ls -l /etc | grep conf` : conf가 있는 파일을 찾음
+ * `ls -l /etc | grep conf | less` : conf가 있는 파일을 less로 봄
+ * `cat /etc/passwd | grep sys` : passwd에서 sys가 포함된 행 출력
+ * `cat /etc/passwd | grep sys | grep sys -v run` : passwd에서 sys가 포함되고 run이 포함되지 않는 행 출력
+
+#### 예제 : 파일 및 텍스트 검색
+1. /etc 디렉터리에서 (하위 디렉터리 제외) 접근 권한이 755인 디렉터리를 모두 출력하라
+     * `ls -l /etc | grep ^drwxr-xr-x`
+2. /etc 디렉터리에서 (하위 디렉터리 제외) 파일명에 bash와 comp를 동시에 포함한 파일 (디렉터리도 포함)을 모두 출력하라
+     * `ls /etc | grep bash | grep comp` (-R을 포함하면 하위 디렉터리를 포함함)
+3. /etc/services 파일에서 tcp와 daemon은 포함하지만 service는 포함하지 않는 행을 모두 출력하라
+     * `cat /etc/services | grep tcp | grep daemon | grep -v service`
+4. 저장된 커널 메시지를 출력하는 dmesg 명령의 결과 중 enabled를 포함한 행을 모두 출력하라
+     * `dmesg | grep enabled`
  
-####과제2. `*`이 포함된 `glob` 문자에 대해 조사하기 [`*`, `?`, `[]`]
+#### 과제2. `glob` 문자에 대해 조사하기 [`*`, `?`, `[]`]
     - 의미 :
     - 쓰임새 :
