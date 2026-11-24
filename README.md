@@ -350,13 +350,13 @@
 2. `\` : 문자에 특수 기능을 부여
 
  **특수 기능 제거 예제**
- * echo \$var : var 출력 ($의 특수 기능이 제거됨)
- * echo \\$var : hello 출력 (\의 트수 기능이 제거됨)
- * echo \"$var\" : "hello"출력 : "의 특수 기능이 제거됨
- * echo \'$var\' : 'hello'출력 : '의 특수 기능이 제거됨
- * echo \'pwd\' : \`pwd\` : `pwd`출력
- * echo \a\b\c\d : abcd 출력
- * echo "\a\b\c\d" : \a\b\c\d 출력
+ * `echo \$var` : var 출력 ($의 특수 기능이 제거됨)
+ * `echo \\$var` : hello 출력 (\의 트수 기능이 제거됨)
+ * `echo \"$var\"` : "hello"출력 : "의 특수 기능이 제거됨
+ * `echo \'$var\'` : 'hello'출력 : '의 특수 기능이 제거됨
+ * `echo \'pwd\'` : \`pwd\` : `pwd`출력
+ * `echo \a\b\c\d` : abcd 출력
+ * `echo "\a\b\c\d"` : \a\b\c\d 출력
 
  **특수 기능 부여**
  - echo -e같은 특정 명령과 ASCII에서 적용
