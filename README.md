@@ -303,7 +303,7 @@
 #### 실습 : Shell script 작성 및 실행
 **hello.sh 파일을 생성**
 
- * `#!/bin/bash` : #1은 스크립트를 실행할 프로그램 `(Shell)`의 절대 경로를 지정
+ * `#!/bin/bash` : `#1`은 스크립트를 실행할 프로그램 `Shell`의 절대 경로를 지정
 
  * `#print massages` : 주석처리
  * `echo "Hello! Shell script"` : echo(명령어) "Hello! Shell script" (출력 내용)
