@@ -34,13 +34,13 @@
   * 예시: `List information about the FILEs (the curren... -a, --all do not ignore entries starting with.`
 ---
 ## 1. Linux 기본 명령
-### 외부 명령 vs 쉘 내장 명령
+#### 외부 명령 vs 쉘 내장 명령
 
 * `which` : 명령어가 저장된 위치를 출력 (외부 명령일 경우 사용)
 * `help` : `which`로 명령어의 위치를 확인할 수 없을 때 사용 / 명령어의 사용법을 출력
 * `type` : `shell` 내장 함수일 경우 `<> is a shell builtin` 출력 | 아닐 경우 명령의 주소 출력
 
-### Directory 관리 명령
+#### Directory 관리 명령
 
 * `pwd` : 현재 `Directory`를 출력
 * `cd` : `Directory`를 이동
@@ -79,7 +79,7 @@
 
 ---
 
-### 파일 관리 명령
+#### 파일 관리 명령
 
 * `file` : 파일 정보 출력 (Text file, ELF format 등)
 * `stat` : 타임스탬프를 포함하는 파일 정보 출력
@@ -123,7 +123,7 @@
 
 ---
 
-### 텍스트 파일 보기 명령
+#### 텍스트 파일 보기 명령
 
 * `cat` : 텍스트 파일 내용을 화면에 출력 / 서로 다른 파일을 연결할 때 사용 (Redirection [`>`])
   * 예시: `cat /etc/services`
