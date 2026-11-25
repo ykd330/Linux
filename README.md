@@ -583,7 +583,25 @@
 * `-o` : 결과물들의 이름을 지정
 * `save-temps` : 중간에 생성되는 임시 파일을 삭제하지 않음
 
----
+**GNU make**
+* `make` : 빌드 자동화 유틸리티
+  - 프로그램의 기능과 구조가 복잡해 실행파일을 만드는 절차가 복잡할 때 사용
+  - 변경된 파일에 대해서만 컴파일이 적용
+* `Makefile` : `make` 유틸리티의 동작 방법을 기술한 파일
+  - `Makefile` `makefile` `GNUmakefile`등 정해진 이름만 가능
+  - `-f` : 사용할 makefile의 이름을 지정
+  - `target` `의존 파일` `명령이 포함된 규칙`으로 구성
 
-## GNU make
-* 
+**Make 동작 분석**
+* Makefile
+  - `all: hello` <- `target : hello`실행 후 이 명령 실행
+    - `@echo "build finished!"` <- 수행할 명령
+  - `hello: main.o func.o` <- `hello`가 `main.o func.o`보다 이전에 생성되었으면 명령 실행
+    - `aarch64-linux-gnu-gcc -o hello main.o func.o`
+  - `main.o: main.c` <- main.o가 main.c보다 이전에 생성되었으면 명령 실행
+    - `aarch64-linux-gnu-ncc -c main.c`
+  - `func.o: func.c` <- func.o가 func.c보다 이전에 생성되었으면 명령 실행
+    - `aarch64-linux-gnu-ncc -c func.c`
+  - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
+    - `@rm -f hello main.o func.o`
+    - `@echo "clean finished!"`
