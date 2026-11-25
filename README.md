@@ -576,10 +576,10 @@
 ---
 
 **gcc 명령 옵션**
-* `-E` : `선행 처리`까지 진행
-* `-S` : `컴파일`까지 진행
-* `-c` : `어셈블`까지 진행
-* 미사용 : `링크`까지 진행
+* `-E` : **선행 처리**까지 진행
+* `-S` : **컴파일**까지 진행
+* `-c` : **어셈블**까지 진행
+* 미사용 : **링크**까지 진행
 * `-o` : 결과물들의 이름을 지정
 * `save-temps` : 중간에 생성되는 임시 파일을 삭제하지 않음
 
@@ -589,7 +589,7 @@
   - 변경된 파일에 대해서만 컴파일이 적용
 * `Makefile` : `make` 유틸리티의 동작 방법을 기술한 파일
   - `Makefile` `makefile` `GNUmakefile`등 정해진 이름만 가능
-  - `-f` : 사용할 makefile의 이름을 지정
+  - `-f` : 사용할 **makefile**의 이름을 지정
   - `target` `의존 파일` `명령이 포함된 규칙`으로 구성
 
 **Make 동작 분석**
@@ -605,5 +605,7 @@
   - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
     - `@rm -f hello main.o func.o`
     - `@echo "clean finished!"`
- - -> 의존 파일로 설정할 경우 의존 파일이 `target`인 명령을 수행함
-     * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 각각의 `target`인 의존 파일`main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
+- **규칙이 실행되는 조건**
+  * `target`이 실제 하는 파일이 아닌 경우
+  * `target`이 의존 파일들 중 가장 최신 파일이 아닌 경우
+  -> * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 각각의 `target`인 의존 파일`main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
