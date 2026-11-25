@@ -692,10 +692,12 @@
 	 * `@echo "clean finished!"`
 	 
 ---
+
 **과제1. EX03-05의 Makefile을 분석 후 아래와 같이 동작하도록 수정하시오**
-**1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
-**2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
-**3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
+* **1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
+* **2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
+* **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
+
 
 ---
 
