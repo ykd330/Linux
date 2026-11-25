@@ -1,4 +1,4 @@
-# Linux
+ # Linux
 
 ## 1과. Linux Command
 
@@ -666,6 +666,16 @@
 * `nm` : object file, library, 실행 파일에 포함된 심볼들을 출력
 
 **정적 라이브러리 생성 실습**
+
+	 
+---
+
+**과제1. EX03-05의 Makefile을 분석 후 아래와 같이 동작하도록 수정하시오**
+* **1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
+* **2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
+* **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
+
+**Makefile 분석**
 * `TARGET = mycalStatic1` <- `TARGET` 변수에 **mycalStatic1** 대입
 * `OBJS = main.o` <- `OBJS` 변수에 **main.o** 대입
 * `LIB_DIR = lib` <- `LIB_DIR` 변수에 **lib** 대입
@@ -690,15 +700,9 @@
 * `clean:`
 	 * `@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
 	 * `@echo "clean finished!"`
+
+- 1. 
 	 
----
-
-**과제1. EX03-05의 Makefile을 분석 후 아래와 같이 동작하도록 수정하시오**
-* **1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
-* **2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
-* **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
-
-
 ---
 
 **공유 라이브러리 도구**
@@ -740,3 +744,63 @@
 
 
 
+
+---
+
+## 파일 입출력
+
+* CPU 동작 -> 가상 메모리 access
+* 가상 메모리:
+  * User공간 : heap, stack 등
+  * 커널 공간 : deviceDriver, OS 등
+* 커널
+
+**저수준 파일 입출력**
+* **시스템 콜**을 이용해 커널에 접근
+  * `open`
+  * `close`
+  * `read`
+  * `write`
+  * `iotcl`
+  * `fcntl`
+  * `lseek`
+  * 파일 접근 매체로 파일 식별자(int) 사용
+
+**파일 식별자**
+* 프로세스 별 열려 있는 파일의 고유 번호
+  - `fd=open("a.txt",O_RDWR);`
+  - `0` `1` `2` : 표준 입출력 <- 실제 장치는 상황에 따라 다름
+  - 한 프로세스가 동일 파일을 여러 번 열거나, 여러 프로세스가 파일 하나를 동시에 열 수 있음
+  - 디바이스 드라이버, 파이프, 소켓 등도 파일 식별자를 통해 파일처럼 액세스됨
+
+
+**저수준 파일 입출력 함수**
+* **int open**
+  * 기능 : 파일 열기
+  * 리턴 : 성공 시 파일 식별자를, 에러 시 errno 설정 후 -1을 리턴
+  * Pathname : 파일 이름 <- 절대 경로와 상대 경로 모두 가능
+  * **flags** :
+    - 파일 접근 모드
+    - 파일 생성 플래그
+    - 파일 상태 플래그
+    - -> 각 비트는 OR 연산 가능
+    - 파일 접근 모드는 필수이므로 반드시 다음 중 하나를 선택해야 함
+      * O_RDONLY : 읽기 전용
+      * O_WRONLY : 쓰기 전용
+      * O_RDWR : 읽기 쓰기 모두 가능
+      * O_CREAT : 파일이 존재하지 않으면 새로 생성함
+      * O_CREAT | O_EXCL : 파일이 존재하면 에러를 리턴
+      * O_NONBLOCK : Nonblocking 모드로 열기
+        - Nonblocking : sleep을 하지 않음 | 동작 중 지연 발생 시 에러 리턴
+  * **mode** :
+      * 파일이 새로 생성되는 경우에만 유료
+      * 파일 접근 권한을 설정함
+      * S_IRWXU: 00700 - 소유자가 읽기, 쓰기, 실행 가능
+      * S_IRWXG: 00070 - 소유 그룹이 읽기, 쓰기, 실행 가능
+      * S_IRUSR | S_IWUSR: 00600 - 소유자가 읽기, 쓰기 가능
+	  
+* **int close**
+  * 기능 : 파일 닫기
+  * 리턴 : 성공 시 0을, 에러 시 errno 설정 후 -1 리턴
+  * fd : 파일 식별자
+	  
