@@ -526,9 +526,11 @@
   * `공백`이나 `줄 바꿈`이 있는 파일 명을 결과로 넘기면 문자열이 쪼개질 수 있으니 주의해야 한다.
 
 #### 과제 2. 받은 인자에서 소문자들만 대문자로 바꾸어 출력하는 스크립트
-* `#!/bin/bash`
-* `echo $1 | tr [:lower:] [:upper:]`
-* `exit 0`
+```bash
+#!/bin/bash
+echo $1 | tr [:lower:] [:upper:]
+exit 0
+```
 
 ---
 
@@ -667,8 +669,33 @@
 * `nm` : object file, library, 실행 파일에 포함된 심볼들을 출력
 
 **정적 라이브러리 생성 실습**
+```bash
+cd lib
+aarch64-linux-gnu-gcc -c plus.c minus.c # .o 파일 생성
+aarch64-linux-gnu-ar crv libmycal.a plus.o minus.o # aarch64-linux-gnu-ar crv 명령어로 정적 라이브러리 생성
+```
+- -> **a - plus.o**
+- -> **a - minus.o**
+```bash
+aarch64-linux-gnu-nm libmycal.a #nm : .o파일, library, 실행 파일에 포함된 심볼 출력
+```
+- -> **plus.o**
+- -> **0000000000000000 T plus**
+- -> **0000000000000000 T minus**
+```bash
+aarch64-linux-gnu-gcc -o mycalStatic1 main.c lib/libmycal.a
+aarch64-linux-gnu-gcc -o mycalStatic1 main.c -Llib -lmycal.a # `-L` : 파일을 찾을 라이브러리 (여기선 lib), `-l` : libmycal.so 사용하고 없으면 libmycal.a 사용 (.so파일이 LinuxOS의 디폴트 파일)
 
-	 
+aarch64-linux-gnu-gcc -o mycalStatic1 main.c -Llib -lmycal.a --static # --static : 공유 라이브러리를 전혀 사용하지 않음 - 기존의 공유 라이브러리로 처리했던 기본 라이브러리들은 모두 실행 파일에 포함하여 컴파일함
+
+ls -l
+-rwxr-xr-x 1 willtek willtek 70656 Dex 23 10:47 mycalStatic1
+-rwxr-xr-x 1 willtek willtek 70656 Dex 23 10:48 mycalStatic2
+-rwxr-xr-x 1 willtek willtek 702944 Dex 23 10:49 mycalStatic3 # mycalStatic3의 byte수가 나머지 두 파일에 비해 크다 -> 공유 라이브러리로 사용했던 기본 라이브러리를 모두 실행 파일에 포함했다
+
+```
+
+
 ---
 
 **과제1. EX03-05의 Makefile을 분석 후 아래와 같이 동작하도록 수정하시오**
@@ -746,6 +773,7 @@ clean:
 * `-shared` : 공유 라이브러리를 만들라는 옵션
 * `-WI` : 이후 콤마로 표시된 내용을 링커에게 전달
 * `-soname` : 라이브러리에 대한 soname을 지정함
+* -> 명령 입력 시 띄어쓰기 하면 안되고 콤마"`,`"로 구분
 
 **공유 라이브러리**
 * **파일 형식 : 원본 파일 | soname 파일 | 링크 파일**
@@ -768,20 +796,25 @@ clean:
 - -> 원본 파일 : libmycal.so.1.2
 - -> 링크 파일 : libmycal.so <- gcc 빌드 시 참조 - 링크 파일이지만 원본 파일이 참조됨
 - -> 응용 프로그램 : mycalDynamic 
-- -> soname 파일 : ibmycal.so <- runtime시 참조 - 원본 파일이 참조됨
+- -> soname 파일 : ibmycal.so <- runtime시 참조 - soname 파일이지만 원본 파일이 참조됨
 
 * **error 해결**
-* `mkdir /home/willtek/work/lib` : `lib` dir을 `work` dir에 생성
-* `cp -a lib/libmycal* /gome/willtek/work/lib`
-* 
-
-
-
+	* **LD_LIBRARY_PATH에 경로 추가**
+		* `mkdir /home/willtek/work/lib` : `lib` dir을 `work` dir에 생성
+		* `cp -a lib/libmycal* /gome/willtek/work/lib` : `/home/willtek/work/lib`에 `lib/libmycal* 복사
+		* `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/willtek/work/lib` : 현재 `LD_LIBRARY_PATH`에 `/home/willtek/work/lib`내용 작성한 후 대입
+		* `export LD_LIBRARY_PATH` : `LD_LIBRARY_PATH`를 내보내기 변수로 설정
+	* **디폴트 경로(/lib, /usr/lib)에 공유 라이브러리를 복사**
+   		* `sudo cp -a lib/libmycal* /lib` : `lib`에 `lib/libmycal*`복사
+    * **/etc/id.so.conf파일에 /home/willtek/work/lib 작성 후 idconfig명령**
+        * vi 혹은 편집기를 이용해 /etc/id.so.conf 열기
+        * `/home/willtek/work/lib` 작성
+        * idconfig 명령
+        * -> vi 사용법 - `sudo vi /etc/id.so.conf` -> 키보드에서 **i**눌러 **insert**모드 진입 -> 내용 수정 후 ESC -> `:wq` + `Enter`
 
 ---
 
 ## 파일 입출력
-
 * CPU 동작 -> 가상 메모리 access
 * 가상 메모리:
   * User공간 : heap, stack 등
@@ -818,13 +851,15 @@ clean:
     - 파일 상태 플래그
     - -> 각 비트는 OR 연산 가능
     - 파일 접근 모드는 필수이므로 반드시 다음 중 하나를 선택해야 함
-      * O_RDONLY : 읽기 전용
-      * O_WRONLY : 쓰기 전용
-      * O_RDWR : 읽기 쓰기 모두 가능
-      * O_CREAT : 파일이 존재하지 않으면 새로 생성함
-      * O_CREAT | O_EXCL : 파일이 존재하면 에러를 리턴
-      * O_NONBLOCK : Nonblocking 모드로 열기
-        - Nonblocking : sleep을 하지 않음 | 동작 중 지연 발생 시 에러 리턴
+      - ***파일 접근 방식***
+      * `O_RDONLY` : 읽기 전용
+      * `O_WRONLY` : 쓰기 전용
+      * `O_RDWR` : 읽기 쓰기 모두 가능
+      - ***파일 생성 플래그***
+      * `O_CREAT` : 파일이 존재하지 않으면 새로 생성함
+      * `O_CREAT | O_EXCL` : 파일이 존재하면 에러를 리턴
+      * `O_NONBLOCK` : Nonblocking 모드로 열기
+        - `Nonblocking` : sleep을 하지 않음 | 동작 중 지연 발생 시 에러 리턴
   * **mode** :
       * 파일이 새로 생성되는 경우에만 유료
       * 파일 접근 권한을 설정함
@@ -839,6 +874,7 @@ clean:
   * fd : 파일 식별자
   * buf : 읽은 데이터를 저장할 버퍼의 주소
   * count : 읽을 데이터의 바이트 수 -> 읽고자 하는 데이터의 최대 값을 의미함
+  * `read` 실행 시 버퍼에 데이터 입력 -> 
   
 * **int write**
   * 기능 : 파일에 데이터를 씀
