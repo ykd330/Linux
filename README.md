@@ -594,13 +594,13 @@
 
 **Make 동작 분석**
 * Makefile
-  - `all: hello` <- `target : hello`실행 후 이 명령 실행
+  - `all: hello` <- target : `hello`실행 후 이 명령 실행
     - `@echo "build finished!"` <- 수행할 명령
   - `hello: main.o func.o` <- `hello`가 `main.o func.o`보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-gcc -o hello main.o func.o`
-  - `main.o: main.c` <- main.o가 main.c보다 이전에 생성되었으면 명령 실행
+  - `main.o: main.c` <- `main.o`가 `main.c`보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-ncc -c main.c`
-  - `func.o: func.c` <- func.o가 func.c보다 이전에 생성되었으면 명령 실행
+  - `func.o: func.c` <- `func.o`가 `func.c`보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-ncc -c func.c`
   - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
     - `@rm -f hello main.o func.o`
