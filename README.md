@@ -597,19 +597,20 @@
 ---
 
 **Make 동작 분석**
-
 * **Makefile**
-  - `all: hello` <- target : **hello**실행 후 이 명령 실행
-    - `@echo "build finished!"` <- 수행할 명령
-  - `hello: main.o func.o` <- **hello**가 **main.o func.o**보다 이전에 생성되었으면 명령 실행
-    - `aarch64-linux-gnu-gcc -o hello main.o func.o`
-  - `main.o: main.c` <- **main.o**가 **main.c**보다 이전에 생성되었으면 명령 실행
-    - `aarch64-linux-gnu-ncc -c main.c`
-  - `func.o: func.c` <- **func.o**가 **func.c**보다 이전에 생성되었으면 명령 실행
-    - `aarch64-linux-gnu-ncc -c func.c`
-  - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
-    - `@rm -f hello main.o func.o`
-    - `@echo "clean finished!"`
+```bash
+  all: hello # <- target : hello실행 후 이 명령 실행
+    @echo "build finished!" # <- 수행할 명령
+  hello: main.o func.o # <- hello가 main.o func.o보다 이전에 생성되었으면 명령 실행
+    aarch64-linux-gnu-gcc -o hello main.o func.o
+  main.o: main.c # <- main.o가 main.c보다 이전에 생성되었으면 명령 실행
+    aarch64-linux-gnu-ncc -c main.c
+  func.o: func.c # <- func.o가 func.c보다 이전에 생성되었으면 명령 실행
+    aarch64-linux-gnu-ncc -c func.c
+  clean: # <- 의존 파일이 없으므로 무조건 명령 수행
+    @rm -f hello main.o func.o
+    @echo "clean finished!"
+```
  - **규칙이 실행되지 않는 조건**
    * `target`과 `의존 파일`이 모두 실제 파일이고 `target`이 가장 최신인 파일인 경우
      * -> 이 경우를 제외한 모든 경우 규칙은 실행된다
@@ -702,6 +703,7 @@ clean:
 	 @rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
 	 @echo "clean finished!"`
 ```	 
+
 * **1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
 * **2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
 * **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
@@ -733,7 +735,7 @@ clean:
 	@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)
 	@echo "clean finished!"
 ```
-	 
+
 ---
 
 **공유 라이브러리 도구**
