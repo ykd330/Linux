@@ -606,4 +606,4 @@
     - `@rm -f hello main.o func.o`
     - `@echo "clean finished!"`
  - -> 의존 파일로 설정할 경우 의존 파일이 `target`인 명령을 수행함
-     * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 의존 파일에 `main.c` `func.c`가 지정 -> `main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
+     * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 각각의 `target`인 의존 파일`main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
