@@ -713,8 +713,30 @@
 **공유 라이브러리**
 * **파일 형식 : 원본 파일 | soname 파일 | 링크 파일**
 * 이름 형식 : `lib{name}.so.{Major}.{Minor}` | `lib{name}.so.{Major}` | `lib{name}.so`
+* 이름 예시 : `libmycal.so.1.2` | `libmycal.so.1` | `libmycal.so`
 
+---
 
+**공유 라이브러리 예제**
+* `./` : EX05-06_lib-shared
+* `aarch64-linux-gnu-gcc -c -fPIC plus.c minus.c` : 위치 독립적인 object파일 생성
+* ``aarch64-linux-gnu-gcc -shared -WI,-soname,libmycal.so.1 -o libmycal.so.1.2 plus.o minus.o` : `soname`파일이 `libmycal.so.1`인 원본 파일 `libmycal.so.1.2` 생성
+* `ln -s libmycal.so.1.2 libmycal.so.1` : soname파일을 심볼릭 링크로 생성
+* `ln -s libmycal.so.1.2 libmycal.so` : 링크 파일을 심볼릭 링크로 생성
+* `cd..` : `cd ..`
+* `aarch64-linux-gnu-gxx -o mycalDynamic main.c -Llib -lmycal`
+* `./mycalDynamic` -> error
+
+- **응용 프로그램과 공유 라이브러리**
+- -> 원본 파일 : libmycal.so.1.2
+- -> 링크 파일 : libmycal.so <- gcc 빌드 시 참조 - 링크 파일이지만 원본 파일이 참조됨
+- -> 응용 프로그램 : mycalDynamic 
+- -> soname 파일 : ibmycal.so <- runtime시 참조 - 원본 파일이 참조됨
+
+* **error 해결**
+* `mkdir /home/willtek/work/lib` : `lib` dir을 `work` dir에 생성
+* `cp -a lib/libmycal* /gome/willtek/work/lib`
+* 
 
 
 
