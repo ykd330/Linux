@@ -765,129 +765,132 @@ clean:
 
 ---
 
-**공유 라이브러리 도구**
-* `-fPIC` :
-  - 위치 독립 코드(PIC) 생성 시 사용하는 옵션
-  - 메모리의 어떤 위치에 있더라도 실행 가능한 코드를 생성함
-  - 공유 라이브러리로 사용하려면 필수적으로 필요한 옵션
-* `-shared` : 공유 라이브러리를 만들라는 옵션
-* `-WI` : 이후 콤마로 표시된 내용을 링커에게 전달
-* `-soname` : 라이브러리에 대한 soname을 지정함
-* -> 명령 입력 시 띄어쓰기 하면 안되고 콤마"`,`"로 구분
+### 공유 라이브러리 도구
 
-**공유 라이브러리**
+* `-fPIC` :
+  * 위치 독립 코드(PIC) 생성 시 사용하는 옵션
+  * 메모리의 어떤 위치에 있더라도 실행 가능한 코드를 생성함
+  * 공유 라이브러리로 사용하려면 필수적으로 필요한 옵션
+* `-shared` : 공유 라이브러리를 만들라는 옵션
+* `-Wl` : 이후 콤마로 표시된 내용을 링커에게 전달
+* `-soname` : 라이브러리에 대한 soname을 지정함
+  * 명령 입력 시 띄어쓰기 하면 안 되고 콤마 `","`로 구분
+
+### 공유 라이브러리
+
 * **파일 형식 : 원본 파일 | soname 파일 | 링크 파일**
-* 이름 형식 : `lib{name}.so.{Major}.{Minor}` | `lib{name}.so.{Major}` | `lib{name}.so`
-* 이름 예시 : `libmycal.so.1.2` | `libmycal.so.1` | `libmycal.so`
+* **이름 형식 : `lib{name}.so.{Major}.{Minor}` | `lib{name}.so.{Major}` | `lib{name}.so`**
+* **이름 예시 : `libmycal.so.1.2` | `libmycal.so.1` | `libmycal.so`**
 
 ---
 
-**공유 라이브러리 예제**
-* `./` : EX05-06_lib-shared
-* `aarch64-linux-gnu-gcc -c -fPIC plus.c minus.c` : 위치 독립적인 object파일 생성
-* ``aarch64-linux-gnu-gcc -shared -WI,-soname,libmycal.so.1 -o libmycal.so.1.2 plus.o minus.o` : `soname`파일이 `libmycal.so.1`인 원본 파일 `libmycal.so.1.2` 생성
-* `ln -s libmycal.so.1.2 libmycal.so.1` : soname파일을 심볼릭 링크로 생성
-* `ln -s libmycal.so.1.2 libmycal.so` : 링크 파일을 심볼릭 링크로 생성
-* `cd..` : `cd ..`
-* `aarch64-linux-gnu-gxx -o mycalDynamic main.c -Llib -lmycal`
-* `./mycalDynamic` -> error
+### 공유 라이브러리 예제
 
-- **응용 프로그램과 공유 라이브러리**
-- -> 원본 파일 : libmycal.so.1.2
-- -> 링크 파일 : libmycal.so <- gcc 빌드 시 참조 - 링크 파일이지만 원본 파일이 참조됨
-- -> 응용 프로그램 : mycalDynamic 
-- -> soname 파일 : ibmycal.so <- runtime시 참조 - soname 파일이지만 원본 파일이 참조됨
+* `./` : `EX05-06_lib-shared`
+* `aarch64-linux-gnu-gcc -c -fPIC plus.c minus.c` : 위치 독립적인 object 파일 생성
+* `aarch64-linux-gnu-gcc -shared -Wl,-soname,libmycal.so.1 -o libmycal.so.1.2 plus.o minus.o` : `soname` 파일이 `libmycal.so.1`인 원본 파일 `libmycal.so.1.2` 생성
+* `ln -s libmycal.so.1.2 libmycal.so.1` : `soname` 파일을 심볼릭 링크로 생성
+* `ln -s libmycal.so.1.2 libmycal.so` : 링크 파일을 심볼릭 링크로 생성
+* `cd ..`
+* `aarch64-linux-gnu-gcc -o mycalDynamic main.c -Llib -lmycal`
+* `./mycalDynamic` → error
+
+* **응용 프로그램과 공유 라이브러리**
+  * 원본 파일 : `libmycal.so.1.2`
+  * 링크 파일 : `libmycal.so` ← `gcc` 빌드 시 참조 (링크 파일이지만 원본 파일이 참조됨)
+  * 응용 프로그램 : `mycalDynamic`
+  * soname 파일 : `libmycal.so.1` ← `runtime` 시 참조 (`soname` 파일이지만 원본 파일이 참조됨)
 
 * **error 해결**
-	* **LD_LIBRARY_PATH에 경로 추가**
-		* `mkdir /home/willtek/work/lib` : `lib` dir을 `work` dir에 생성
-		* `cp -a lib/libmycal* /gome/willtek/work/lib` : `/home/willtek/work/lib`에 `lib/libmycal* 복사
-		* `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/willtek/work/lib` : 현재 `LD_LIBRARY_PATH`에 `/home/willtek/work/lib`내용 작성한 후 대입
-		* `export LD_LIBRARY_PATH` : `LD_LIBRARY_PATH`를 내보내기 변수로 설정
-	* **디폴트 경로(/lib, /usr/lib)에 공유 라이브러리를 복사**
-   		* `sudo cp -a lib/libmycal* /lib` : `lib`에 `lib/libmycal*`복사
-    * **/etc/id.so.conf파일에 /home/willtek/work/lib 작성 후 idconfig명령**
-        * vi 혹은 편집기를 이용해 /etc/id.so.conf 열기
-        * `/home/willtek/work/lib` 작성
-        * idconfig 명령
-        * -> vi 사용법 - `sudo vi /etc/id.so.conf` -> 키보드에서 **i**눌러 **insert**모드 진입 -> 내용 수정 후 ESC -> `:wq` + `Enter`
+  * **`LD_LIBRARY_PATH`에 경로 추가**
+    * `mkdir /home/willtek/work/lib` : `lib` dir을 `work` dir에 생성
+    * `cp -a lib/libmycal* /home/willtek/work/lib` : `/home/willtek/work/lib`에 `lib/libmycal*` 복사
+    * `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/willtek/work/lib` : 현재 `LD_LIBRARY_PATH`에 `/home/willtek/work/lib` 내용 작성한 후 대입
+    * `export LD_LIBRARY_PATH` : `LD_LIBRARY_PATH`를 내보내기 변수로 설정
+  * **디폴트 경로(`/lib`, `/usr/lib`)에 공유 라이브러리 복사 및 설정**
+    * `sudo cp -a lib/libmycal* /lib` : `/lib`에 `lib/libmycal*` 복사
+    * **`/etc/ld.so.conf` 파일에 `/home/willtek/work/lib` 작성 후 `ldconfig` 명령**
+      * `vi` 혹은 편집기를 이용해 `/etc/ld.so.conf` 열기
+      * `/home/willtek/work/lib` 작성
+      * `ldconfig` 명령
+      * `vi` 사용법 : `sudo vi /etc/ld.so.conf` → 키보드에서 `i` 눌러 `insert` 모드 진입 → 내용 수정 후 `ESC` → `:wq` + `Enter`
 
 ---
 
 ## 파일 입출력
-* CPU 동작 -> 가상 메모리 access
-* 가상 메모리:
-  * User공간 : heap, stack 등
-  * 커널 공간 : deviceDriver, OS 등
+
+* CPU 동작 → 가상 메모리 access
+* 가상 메모리 :
+  * User 공간 : `heap`, `stack` 등
+  * 커널 공간 : `deviceDriver`, `OS` 등
 * 커널
 
-**저수준 파일 입출력**
+### 저수준 파일 입출력
+
 * **시스템 콜**을 이용해 커널에 접근
   * `open`
   * `close`
   * `read`
   * `write`
-  * `iotcl`
+  * `ioctl`
   * `fcntl`
   * `lseek`
-  * 파일 접근 매체로 파일 식별자(int) 사용
+  * 파일 접근 매체로 파일 식별자(`int`) 사용
 
-**파일 식별자**
+### 파일 식별자
+
 * 프로세스 별 열려 있는 파일의 고유 번호
-  - `fd=open("a.txt",O_RDWR);`
-  - `0` `1` `2` : 표준 입출력 <- 실제 장치는 상황에 따라 다름
-  - 한 프로세스가 동일 파일을 여러 번 열거나, 여러 프로세스가 파일 하나를 동시에 열 수 있음
-  - 디바이스 드라이버, 파이프, 소켓 등도 파일 식별자를 통해 파일처럼 액세스됨
+  * `fd = open("a.txt", O_RDWR);`
+  * `0`, `1`, `2` : 표준 입출력 ← 실제 장치는 상황에 따라 다름
+  * 한 프로세스가 동일 파일을 여러 번 열거나, 여러 프로세스가 파일 하나를 동시에 열 수 있음
+  * 디바이스 드라이버, 파이프, 소켓 등도 파일 식별자를 통해 파일처럼 액세스됨
 
+### 저수준 파일 입출력 함수
 
-**저수준 파일 입출력 함수**
-* **int open**
+* **`int open`**
   * 기능 : 파일 열기
-  * 리턴 : 성공 시 파일 식별자를, 에러 시 errno 설정 후 -1을 리턴
-  * Pathname : 파일 이름 <- 절대 경로와 상대 경로 모두 가능
+  * 리턴 : 성공 시 파일 식별자를, 에러 시 `errno` 설정 후 `-1`을 리턴
+  * `Pathname` : 파일 이름 ← 절대 경로와 상대 경로 모두 가능
   * **flags** :
-    - 파일 접근 모드
-    - 파일 생성 플래그
-    - 파일 상태 플래그
-    - -> 각 비트는 OR 연산 가능
-    - 파일 접근 모드는 필수이므로 반드시 다음 중 하나를 선택해야 함
-      - ***파일 접근 방식***
-      * `O_RDONLY` : 읽기 전용
-      * `O_WRONLY` : 쓰기 전용
-      * `O_RDWR` : 읽기 쓰기 모두 가능
-      - ***파일 생성 플래그***
-      * `O_CREAT` : 파일이 존재하지 않으면 새로 생성함
-      * `O_CREAT | O_EXCL` : 파일이 존재하면 에러를 리턴
-      * `O_NONBLOCK` : Nonblocking 모드로 열기
-        - `Nonblocking` : sleep을 하지 않음 | 동작 중 지연 발생 시 에러 리턴
+    * 파일 접근 모드
+    * 파일 생성 플래그
+    * 파일 상태 플래그
+    * 각 비트는 `OR` 연산 가능
+    * 파일 접근 모드는 필수이므로 반드시 다음 중 하나를 선택해야 함
+      * **파일 접근 방식**
+        * `O_RDONLY` : 읽기 전용
+        * `O_WRONLY` : 쓰기 전용
+        * `O_RDWR` : 읽기 쓰기 모두 가능
+      * **파일 생성 플래그**
+        * `O_CREAT` : 파일이 존재하지 않으면 새로 생성함
+        * `O_CREAT | O_EXCL` : 파일이 존재하면 에러를 리턴
+        * `O_NONBLOCK` : Nonblocking 모드로 열기
+          * `Nonblocking` : sleep을 하지 않음 | 동작 중 지연 발생 시 에러 리턴
   * **mode** :
-      * 파일이 새로 생성되는 경우에만 유료
-      * 파일 접근 권한을 설정함
-      * S_IRWXU: 00700 - 소유자가 읽기, 쓰기, 실행 가능
-      * S_IRWXG: 00070 - 소유 그룹이 읽기, 쓰기, 실행 가능
-      * S_IRUSR | S_IWUSR: 00600 - 소유자가 읽기, 쓰기 가능
+    * 파일이 새로 생성되는 경우에만 유효
+    * 파일 접근 권한을 설정함
+    * `S_IRWXU` : `00700` - 소유자가 읽기, 쓰기, 실행 가능
+    * `S_IRWXG` : `00070` - 소유 그룹이 읽기, 쓰기, 실행 가능
+    * `S_IRUSR | S_IWUSR` : `00600` - 소유자가 읽기, 쓰기 가능
 
-* **int read**
+* **`int read`**
   * 기능 : 파일로부터 데이터를 읽음
-  * 리턴 : 성공 시 읽은 데이터의 바이트 수를, 에러 시 errno 설정 후 -1을 리턴
-    - 읽은 데이터의 바이트 수는 count보다 작을 수 있고 0일 수도 있음 -> 파일 끝인 경우 0을 리턴
-  * fd : 파일 식별자
-  * buf : 읽은 데이터를 저장할 버퍼의 주소
-  * count : 읽을 데이터의 바이트 수 -> 읽고자 하는 데이터의 최대 값을 의미함
-  * `read` 실행 시 버퍼에 데이터 입력 -> 
-  
-* **int write**
-  * 기능 : 파일에 데이터를 씀
-  * 리턴 : 성공 시 쓴 데이터의 바이트 수를, 에러 시 errno 설정 후 -1을 리턴
-    - 쓴 데이터의 바이트 수는 count보다 작을 수 있고 0일 수 있음 -> 아무 것도 쓰지 못한 경우 0을 리턴
-  * fd : 파일 식별자
-  * buf : 쓸 데이터를 저장한 버퍼의 주소
-  * count : 쓸 데이터의 바이트 수 -> 쓰고자 하는 데이터의 최대 값을 의미함
-  
-* **int close**
-  * 기능 : 파일 닫기
-  * 리턴 : 성공 시 0을, 에러 시 errno 설정 후 -1 리턴
-  * fd : 파일 식별자
+  * 리턴 : 성공 시 읽은 데이터의 바이트 수를, 에러 시 `errno` 설정 후 `-1`을 리턴
+    * 읽은 데이터의 바이트 수는 `count`보다 작을 수 있고 `0`일 수도 있음 → 파일 끝인 경우 `0`을 리턴
+  * `fd` : 파일 식별자
+  * `buf` : 읽은 데이터를 저장할 버퍼의 주소
+  * `count` : 읽을 데이터의 바이트 수 → 읽고자 하는 데이터의 최대 값을 의미함
+  * `read` 실행 시 버퍼에 데이터 입력
 
-**예제 : 파일 복사**
-	  
+* **`int write`**
+  * 기능 : 파일에 데이터를 씀
+  * 리턴 : 성공 시 쓴 데이터의 바이트 수를, 에러 시 `errno` 설정 후 `-1`을 리턴
+    * 쓴 데이터의 바이트 수는 `count`보다 작을 수 있고 `0`일 수 있음 → 아무 것도 쓰지 못한 경우 `0`을 리턴
+  * `fd` : 파일 식별자
+  * `buf` : 쓸 데이터를 저장한 버퍼의 주소
+  * `count` : 쓸 데이터의 바이트 수 → 쓰고자 하는 데이터의 최대 값을 의미함
+
+* **`int close`**
+  * 기능 : 파일 닫기
+  * 리턴 : 성공 시 `0`을, 에러 시 `errno` 설정 후 `-1` 리턴
+  * `fd` : 파일 식별자
