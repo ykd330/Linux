@@ -615,7 +615,7 @@
      * -> 이 경우를 제외한 모든 경우 규칙은 실행된다
    * **실행 과정**
      - -> `make`명령 실행
-     - -> 규칙 `all: hello` 실행
+     - -> 첫 번째 규칙 `all: hello` 실행
      - -> `hello`파일이 없으므로 의존 파일인 `main.o` `func.o`로 `hello`파일 생성 시도
      - -> `main.o` `func.o`파일이 없으므로 각각 `main.o`와 'func.o` 규칙 실행
      - -> `main.o`와 `func.c` 규칙 실행하기 전 의존 파일이 없는 `clean`규칙 실행
@@ -640,4 +640,64 @@
     * `$?` : 현재 타겟보다 최근에 변경된 의존 파일들의 이름
     * `$^` : 현재 모든 의존파일들
     * `%` : 동일한 패턴을 나타내는 기호
-  
+
+---
+
+**라이브러리**
+* **정적 라이브러리**
+  * **컴파일** 시 링크가 이루어 진다.
+  * 라이브러리가 실행 파일에 포함된다.
+  * 프로그램 사이즈가 커진다
+* **공유 라이브러리**
+  * **런타임** 시 링크가 이루어 진다.
+  * 프로그램 사이즈가 작아지고 메모리 효율성이 높아진다.
+
+* 라이브러리 이름은 `lib`로 시작해야 한다.
+  * 정적 라이브러리 : `lib{}.a`
+  * 동적 라이브러리 : `lib[].so` <- `Linux`에서 디폴트
+    
+---
+
+**정적 라이브러리 도구**
+* `ar` : 아카이브를 생성, 수정, 추출한다.
+  - `c` : 아카이브 생성
+  - `r` : 아카이브에 파일 추가
+  - `v` : verbose
+* `nm` : object file, library, 실행 파일에 포함된 심볼들을 출력
+
+**정적 라이브러리 생성 실습**
+* `TARGET = mycalStatic1` <- `TARGET` 변수에 **mycalStatic1** 대입
+* `OBJS = main.o` <- `OBJS` 변수에 **main.o** 대입
+* `LIB_DIR = lib` <- `LIB_DIR` 변수에 **lib** 대입
+* `LIB_TARGET = $(LIB_DIR)/libmycal.a` <- `LIB_TARGET` 변수에 **lib/libmycal.a** 대입
+* `LIB_OBJS = $(LIB_DIR)/plus.o $(LIB_DIR)/minus.o` <- `LIB_OBJS` 변수에 **lib/plus.o** **lib/minus.o** 대입
+* `CC = aarch64-linux-gnu-gcc` <- `CC` 변수에 **aarch64-linux-gnu-gcc** 대입
+* `AR = aarch64-linux-gnu-ar` <- `AR` 변수에 **aarch64-lunux-gnu-ar** 대입
+* `CFLAGS = -c` <- `CFLAGS` 변수에 **-c** 대입
+
+* `all: $(TARGET) ( = `all : mycalStatic1` )
+	 * `@echo "build finished!"`
+
+* `$(TARGET): $(OBJS) $(LIB_TARGET)` ( = `mycalStatic1: main.o lib/libmycal.a` )
+	 * `$(CC) -o $@ $^` ( = `aarch64-linux-gnu-gcc -o mycalStatic1 main.o lib/libmycal.a` )
+
+* `$(LIB_TARGET): $(LIB_OBJS)` ( = `lib/libmycal.a: lib/plus.o lib/minus.o` )
+	 * `$(AR) crv $@ $^` ( = `aarch64-linux-gnu-ar crv lib/libmycal.a lib/plus.o lib/minus.o` )
+
+* `%.o: %.c` ( = `%`는 패턴으로 `plus`와 `minus` )
+	 * `$(CC) $(CFLAGS) -o $@ $< ` ( = aarch64-linux-gnu-gcc -c -o {`plus.o` or `minus.o`} {`plus.c` or `minus.c`}
+
+* `clean:`
+	 * `@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
+	 * `@echo "clean finished!"`
+
+---
+
+**공유 라이브러리 도구**
+
+
+
+
+
+
+
