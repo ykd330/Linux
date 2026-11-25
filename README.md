@@ -563,6 +563,8 @@
 * `Buildroot` `Yocto` 등의 빌드 시스템을 사용
 * 직접 빌드
   - crosstool-NG 프로그램 사용 / 각각의 구성 요소를 직접 빌드
+  
+---
 
 **실습 : raspberryPi GNU gcc compile**
 * `aarch64-linux-gnu-gcc func.c main.c`
@@ -570,3 +572,18 @@
   - -> a.out  func.c  main.c
 * `./a.out`
   - -> `main: Hello!` `func: Hello!`
+
+---
+
+**gcc 명령 옵션**
+* `-E` : `선행 처리`까지 진행
+* `-S` : `컴파일`까지 진행
+* `-c` : `어셈블`까지 진행
+* 미사용 : `링크`까지 진행
+* `-o` : 결과물들의 이름을 지정
+* `save-temps` : 중간에 생성되는 임시 파일을 삭제하지 않음
+
+---
+
+## GNU make
+* 
