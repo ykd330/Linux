@@ -690,12 +690,27 @@
 * `clean:`
 	 * `@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
 	 * `@echo "clean finished!"`
+	 
+---
+**과제1. EX03-05의 Makefile을 분석 후 아래와 같이 동작하도록 수정하시오**
+**1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
+**2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
+**3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
 
 ---
 
 **공유 라이브러리 도구**
+* `-fPIC` :
+  - 위치 독립 코드(PIC) 생성 시 사용하는 옵션
+  - 메모리의 어떤 위치에 있더라도 실행 가능한 코드를 생성함
+  - 공유 라이브러리로 사용하려면 필수적으로 필요한 옵션
+* `-shared` : 공유 라이브러리를 만들라는 옵션
+* `-WI` : 이후 콤마로 표시된 내용을 링커에게 전달
+* `-soname` : 라이브러리에 대한 soname을 지정함
 
-
+**공유 라이브러리**
+* **파일 형식 : 원본 파일 | soname 파일 | 링크 파일**
+* 이름 형식 : `lib{name}.so.{Major}.{Minor}` | `lib{name}.so.{Major}` | `lib{name}.so`
 
 
 
