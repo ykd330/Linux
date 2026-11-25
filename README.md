@@ -594,14 +594,16 @@
 
 **Make 동작 분석**
 * Makefile
-  - `all: hello` <- target : `hello`실행 후 이 명령 실행
+  - `all: hello` <- target : **hello**실행 후 이 명령 실행
     - `@echo "build finished!"` <- 수행할 명령
-  - `hello: main.o func.o` <- `hello`가 `main.o func.o`보다 이전에 생성되었으면 명령 실행
+  - `hello: main.o func.o` <- **hello**가 **main.o func.o**보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-gcc -o hello main.o func.o`
-  - `main.o: main.c` <- `main.o`가 `main.c`보다 이전에 생성되었으면 명령 실행
+  - `main.o: main.c` <- **main.o**가 **main.c**보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-ncc -c main.c`
-  - `func.o: func.c` <- `func.o`가 `func.c`보다 이전에 생성되었으면 명령 실행
+  - `func.o: func.c` <- **func.o**가 **func.c**보다 이전에 생성되었으면 명령 실행
     - `aarch64-linux-gnu-ncc -c func.c`
   - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
     - `@rm -f hello main.o func.o`
     - `@echo "clean finished!"`
+ - -> 의존 파일로 설정할 경우 의존 파일이 `target`인 명령을 수행함
+     * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 의존 파일에 `main.c` `func.c`가 지정 -> `main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
