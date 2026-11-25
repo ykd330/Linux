@@ -583,6 +583,8 @@
 * `-o` : 결과물들의 이름을 지정
 * `save-temps` : 중간에 생성되는 임시 파일을 삭제하지 않음
 
+---
+
 **GNU make**
 * `make` : 빌드 자동화 유틸리티
   - 프로그램의 기능과 구조가 복잡해 실행파일을 만드는 절차가 복잡할 때 사용
@@ -591,6 +593,8 @@
   - `Makefile` `makefile` `GNUmakefile`등 정해진 이름만 가능
   - `-f` : 사용할 **makefile**의 이름을 지정
   - `target` `의존 파일` `명령이 포함된 규칙`으로 구성
+
+---
 
 **Make 동작 분석**
 * **Makefile**
@@ -618,7 +622,12 @@
     - -> `main.o` `func.o` 생성
     - -> `main.o` `func.o`가 생성되었으므로 두 파일을 가지고 규칙`hello`의 명령인`aarch64-linux-gnu-gcc -o hello main.c func.c`실행
     - -> `hello`규칙이 완료 되었으므로 다음 규칙인 `all: hello`의 명령`@echo "build finished!"`실행 
+
+---
+
 * **Makefile macro**
+  * `macre`사용 시 환경에 맞게 **Makefile**을 수정하기 편해진다.
+  
   - **사용자 정의 매크로**
     * 정의 : `name=value`
     * 사용 : `$(name)`
