@@ -676,32 +676,63 @@
 * **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
 
 **Makefile 분석**
-* `TARGET = mycalStatic1` <- `TARGET` 변수에 **mycalStatic1** 대입
-* `OBJS = main.o` <- `OBJS` 변수에 **main.o** 대입
-* `LIB_DIR = lib` <- `LIB_DIR` 변수에 **lib** 대입
-* `LIB_TARGET = $(LIB_DIR)/libmycal.a` <- `LIB_TARGET` 변수에 **lib/libmycal.a** 대입
-* `LIB_OBJS = $(LIB_DIR)/plus.o $(LIB_DIR)/minus.o` <- `LIB_OBJS` 변수에 **lib/plus.o** **lib/minus.o** 대입
-* `CC = aarch64-linux-gnu-gcc` <- `CC` 변수에 **aarch64-linux-gnu-gcc** 대입
-* `AR = aarch64-linux-gnu-ar` <- `AR` 변수에 **aarch64-lunux-gnu-ar** 대입
-* `CFLAGS = -c` <- `CFLAGS` 변수에 **-c** 대입
+```bash
+TARGET = mycalStatic1 #<- TARGET 변수에 mycalStatic1 대입
+OBJS = main.o #<- OBJS 변수에 main.o 대입
+LIB_DIR = lib #<- LIB_DIR 변수에 lib 대입
+LIB_TARGET = $(LIB_DIR)/libmycal.a #<- LIB_TARGET 변수에 lib/libmycal.a 대입
+LIB_OBJS = $(LIB_DIR)/plus.o $(LIB_DIR)/minus.o #<- LIB_OBJS 변수에 lib/plus.o, lib/minus.o 대입
+CC = aarch64-linux-gnu-gcc #<- CC 변수에 aarch64-linux-gnu-gcc 대입
+AR = aarch64-linux-gnu-ar #<- AR 변수에 aarch64-lunux-gnu-ar 대입
+CFLAGS = -c #<- CFLAGS 변수에 -c 대입
 
-* `all: $(TARGET) ( = `all : mycalStatic1` )
-	 * `@echo "build finished!"`
+all: $(TARGET) #all : mycalStatic1
+	 @echo "build finished!"
 
-* `$(TARGET): $(OBJS) $(LIB_TARGET)` ( = `mycalStatic1: main.o lib/libmycal.a` )
-	 * `$(CC) -o $@ $^` ( = `aarch64-linux-gnu-gcc -o mycalStatic1 main.o lib/libmycal.a` )
+$(TARGET): $(OBJS) $(LIB_TARGET) #mycalStatic1: main.o lib/libmycal.a
+	 $(CC) -o $@ $^ #aarch64-linux-gnu-gcc -o mycalStatic1 main.o lib/libmycal.a
 
-* `$(LIB_TARGET): $(LIB_OBJS)` ( = `lib/libmycal.a: lib/plus.o lib/minus.o` )
-	 * `$(AR) crv $@ $^` ( = `aarch64-linux-gnu-ar crv lib/libmycal.a lib/plus.o lib/minus.o` )
+$(LIB_TARGET): $(LIB_OBJS) #lib/libmycal.a: lib/plus.o lib/minus.o
+	 $(AR) crv $@ $^ #aarch64-linux-gnu-ar crv lib/libmycal.a lib/plus.o lib/minus.o
 
-* `%.o: %.c` ( = `%`는 패턴으로 `plus`와 `minus` )
-	 * `$(CC) $(CFLAGS) -o $@ $< ` ( = aarch64-linux-gnu-gcc -c -o {`plus.o` or `minus.o`} {`plus.c` or `minus.c`}
+%.o: %.c # %는 패턴으로 여기서는 plus와 minus
+	 $(CC) $(CFLAGS) -o $@ $<  #aarch64-linux-gnu-gcc -c -o {plus.o or minus.o} {plus.c or minus.c}
 
-* `clean:`
-	 * `@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
-	 * `@echo "clean finished!"`
+clean:
+	 @rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)` ( = `@rm -f mycalSstatic1 main.o lib/libmycal lib/plus.o lib/minus.o lib/plus.c lib/minus.c` )
+	 @echo "clean finished!"`
+```	 
+* **1. make lib # 라이브러리만 빌드 -> libmycal.a만 생성**
+* **2. make app # 어플리케이션만 빌드 -> 이미 만들어진 libmycal.a와 main.c를 이용하여 mycalStatic2를 생성**
+* **3. make all # 라이브러리와 어플리케이션을 모두 빌드 -> libmycal.a를 생성하고, main.c와 결합하여 mycalStatic2를 생성**
+```bash
+TARGET = mycalStatic1
+TARGET2 = mycalStatic2
+OBJS = main.o
+LIB_DIR = lib
+LIB_TARGET = $(LIB_DIR)/libmycal.a
+LIB_OBJS = $(LIB_DIR)/plus.o $(LIB_DIR)/minus.o
+CC = aarch64-linux-gnu-gcc
+AR = aarch64-linux-gnu-ar
+CFLAGS = -c
 
-- 1. 
+all: lib app
+	@echo "build finished!"
+
+app: $(LIB_TARGET) $(OBJS)
+	$(AR) crv $(TARGET2) $^
+
+
+lib: $(LIB_OBJS)
+	$(AR) crv $(LIB_TARGET) $^
+	
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ $< 
+
+clean:
+	@rm -f $(TARGET) $(OBJS) $(LIB_TARGET) $(LIB_OBJS)
+	@echo "clean finished!"
+```
 	 
 ---
 
@@ -798,9 +829,27 @@
       * S_IRWXU: 00700 - 소유자가 읽기, 쓰기, 실행 가능
       * S_IRWXG: 00070 - 소유 그룹이 읽기, 쓰기, 실행 가능
       * S_IRUSR | S_IWUSR: 00600 - 소유자가 읽기, 쓰기 가능
-	  
+
+* **int read**
+  * 기능 : 파일로부터 데이터를 읽음
+  * 리턴 : 성공 시 읽은 데이터의 바이트 수를, 에러 시 errno 설정 후 -1을 리턴
+    - 읽은 데이터의 바이트 수는 count보다 작을 수 있고 0일 수도 있음 -> 파일 끝인 경우 0을 리턴
+  * fd : 파일 식별자
+  * buf : 읽은 데이터를 저장할 버퍼의 주소
+  * count : 읽을 데이터의 바이트 수 -> 읽고자 하는 데이터의 최대 값을 의미함
+  
+* **int write**
+  * 기능 : 파일에 데이터를 씀
+  * 리턴 : 성공 시 쓴 데이터의 바이트 수를, 에러 시 errno 설정 후 -1을 리턴
+    - 쓴 데이터의 바이트 수는 count보다 작을 수 있고 0일 수 있음 -> 아무 것도 쓰지 못한 경우 0을 리턴
+  * fd : 파일 식별자
+  * buf : 쓸 데이터를 저장한 버퍼의 주소
+  * count : 쓸 데이터의 바이트 수 -> 쓰고자 하는 데이터의 최대 값을 의미함
+  
 * **int close**
   * 기능 : 파일 닫기
   * 리턴 : 성공 시 0을, 에러 시 errno 설정 후 -1 리턴
   * fd : 파일 식별자
+
+**예제 : 파일 복사**
 	  
