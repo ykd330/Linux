@@ -608,4 +608,12 @@
 - **규칙이 실행되는 조건**
   * `target`이 실제 하는 파일이 아닌 경우
   * `target`이 의존 파일들 중 가장 최신 파일이 아닌 경우
-  -> * `hello: main.o func.o` -> target : `main.o`와 target : `func.o`인 명령어 실행 -> 각각의 `target`인 의존 파일`main.c` `func.c`를 gcc -c로 컴파일 -> `main.o` `func.o` 파일 생성 -> target : `hello` 명령 수행 -> 의존 파일`main.o` `func.o`에 `gcc -o hello main.o func.o` 명령 수행 -> `@echo "build finished!"` 명령 수행
+  * **실행 과정**
+    - -> `make` -> `all: hello` 실행
+    - -> `hello`파일이 없으므로 의존 파일인 `main.o` `func.o`로 `hello`파일 생성 시도
+    - -> `main.o` `func.o`파일이 없으므로 각각 `main.o`와 'func.o` 규칙 실행
+    - -> `main.o`와 `func.c` 규칙 실행하기 전 의존 파일이 없는 `clean`규칙 실행
+    - -> 각 규칙의 의존 파일인 `main.c` `func.c`를 가지고 aarch64-linux-gnu-gcc -c {func.c, main.c} 실행
+    - -> `main.o` `func.o` 생성
+    - -> `main.o` `func.o`가 생성되었으므로 두 파일을 가지고  `aarch64-linux-gnu-gcc -o hello main.c func.c` 명령 실행
+    - -> `hello` 파일 생성 되었으므로 `@echo "build finished!" 명령 실행 
