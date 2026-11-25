@@ -597,6 +597,7 @@
 ---
 
 **Make 동작 분석**
+
 * **Makefile**
   - `all: hello` <- target : **hello**실행 후 이 명령 실행
     - `@echo "build finished!"` <- 수행할 명령
@@ -609,24 +610,24 @@
   - `clean:` <- 의존 파일이 없으므로 무조건 명령 수행
     - `@rm -f hello main.o func.o`
     - `@echo "clean finished!"`
-- **규칙이 실행되지 않는 조건**
-  * `target`과 `의존 파일`이 모두 실제 파일이고 `target`이 가장 최신인 파일인 경우
-    * -> 이 경우를 제외한 모든 경우 규칙은 실행된다
-  * **실행 과정**
-    - -> `make`명령 실행
-    - -> 규칙 `all: hello` 실행
-    - -> `hello`파일이 없으므로 의존 파일인 `main.o` `func.o`로 `hello`파일 생성 시도
-    - -> `main.o` `func.o`파일이 없으므로 각각 `main.o`와 'func.o` 규칙 실행
-    - -> `main.o`와 `func.c` 규칙 실행하기 전 의존 파일이 없는 `clean`규칙 실행
-    - -> 각 규칙의 의존 파일인 `main.c` `func.c`를 가지고 각 규칙`main.c` `func.c`의 명령인`aarch64-linux-gnu-gcc -c {func.c, main.c}`실행
-    - -> `main.o` `func.o` 생성
-    - -> `main.o` `func.o`가 생성되었으므로 두 파일을 가지고 규칙`hello`의 명령인`aarch64-linux-gnu-gcc -o hello main.c func.c`실행
-    - -> `hello`규칙이 완료 되었으므로 다음 규칙인 `all: hello`의 명령`@echo "build finished!"`실행 
+ - **규칙이 실행되지 않는 조건**
+   * `target`과 `의존 파일`이 모두 실제 파일이고 `target`이 가장 최신인 파일인 경우
+     * -> 이 경우를 제외한 모든 경우 규칙은 실행된다
+   * **실행 과정**
+     - -> `make`명령 실행
+     - -> 규칙 `all: hello` 실행
+     - -> `hello`파일이 없으므로 의존 파일인 `main.o` `func.o`로 `hello`파일 생성 시도
+     - -> `main.o` `func.o`파일이 없으므로 각각 `main.o`와 'func.o` 규칙 실행
+     - -> `main.o`와 `func.c` 규칙 실행하기 전 의존 파일이 없는 `clean`규칙 실행
+     - -> 각 규칙의 의존 파일인 `main.c` `func.c`를 가지고 각 규칙`main.c` `func.c`의 명령인`aarch64-linux-gnu-gcc -c {func.c, main.c}`실행
+     - -> `main.o` `func.o` 생성
+     - -> `main.o` `func.o`가 생성되었으므로 두 파일을 가지고 규칙`hello`의 명령인`aarch64-linux-gnu-gcc -o hello main.c func.c`실행
+     - -> `hello`규칙이 완료 되었으므로 다음 규칙인 `all: hello`의 명령`@echo "build finished!"`실행 
 
 ---
 
-* **Makefile macro**
-  * `macre`사용 시 환경에 맞게 **Makefile**을 수정하기 편해진다.
+**Makefile macro**
+  * `macro`사용 시 환경에 맞게 **Makefile**을 수정하기 편해진다.
   
   - **사용자 정의 매크로**
     * 정의 : `name=value`
@@ -638,4 +639,5 @@
     * `$<` : 현재 의존 파일들 중 첫 번째 이름
     * `$?` : 현재 타겟보다 최근에 변경된 의존 파일들의 이름
     * `$^` : 현재 모든 의존파일들
+    * `%` : 동일한 패턴을 나타내는 기호
   
